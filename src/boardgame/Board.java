@@ -28,6 +28,16 @@ public class Board {
     }
 
     public Piece piece(Position position){
-        return piece(position.getRow(),position.getColumn());
+        return pieces(position.getRow(),position.getColumn());
+    }
+
+    private Piece pieces(int row, int column) {
+        return null;//TODO
+    }
+
+    public void placePiece(Piece piece, Position position){
+        pieces[position.getRow()][position.getColumn()] = piece;
+
+        piece.position = position;
     }
 }
