@@ -18,9 +18,8 @@ public class ChessPosition {
     public char getColumn() {
         return column;
     }
-
-    public void setColumn(char column) {
-        this.column = column;
+    public int getRow() {
+        return row;
     }
 
     protected Position toPosition(){
@@ -33,9 +32,6 @@ public class ChessPosition {
 
     @Override
     public String toString() {
-        return "ChessPosition{" +
-                "column=" + column +
-                ", row=" + row +
-                '}';
+        return "" + column + row;
     }
 }

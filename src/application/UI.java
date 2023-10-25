@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class UI {
     // https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
@@ -39,10 +40,10 @@ public class UI {
 
     public static ChessPosition readChessPosition(Scanner scanner){
         try {
-        String string = scanner.nextLine();
-        char colums = string.charAt(0);
-        int row = Integer.parseInt(string.substring(1));
-        return new ChessPosition(colums,row);
+           String string = scanner.nextLine();
+           char column = string.charAt(0);
+           int row = Integer.parseInt(string.substring(1));
+           return new ChessPosition(column,row);
         }
         catch (RuntimeException e){
             throw new InputMismatchException("Error reading ChessPosition. Valid values are from a1 to h8");
@@ -57,11 +58,11 @@ public class UI {
         System.out.println();
         System.out.println("Turn: " + chessMatch.getTurn());
 
-        if (!chessMatch.isCheckMate()){
+        if (!chessMatch.getCheckMate()){
             System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
-            
-            if (chessMatch.isCheck()){
-                System.out.println("CHECK");
+
+            if (chessMatch.getCheck()){
+                System.out.println("CHECK!");
             }
         }else {
             System.out.println("CHECKMATE!");
@@ -90,7 +91,6 @@ public class UI {
         }
         System.out.println("  a b c d e f g h");
     }
-
 
     private static void printPiece(ChessPiece piece,boolean background){
         if (background){

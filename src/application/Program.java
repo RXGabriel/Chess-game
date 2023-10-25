@@ -1,15 +1,15 @@
 package application;
 
 
-import chess.ChessException;
-import chess.ChessMatch;
-import chess.ChessPiece;
-import chess.ChessPosition;
+        import chess.ChessException;
+        import chess.ChessMatch;
+        import chess.ChessPiece;
+        import chess.ChessPosition;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+        import java.util.ArrayList;
+        import java.util.InputMismatchException;
+        import java.util.List;
+        import java.util.Scanner;
 
 public class Program {
     public static void main(String[]args){
@@ -18,12 +18,12 @@ public class Program {
         List<ChessPiece> captured = new ArrayList<>();
 
 
-        while (!chessMatch.isCheckMate()){
+        while (!chessMatch.getCheckMate()){
             try {
                 UI.clearScreen();
                 UI.printMatch(chessMatch,captured);
                 System.out.println();
-                System.out.println("Source: ");
+                System.out.print("Source: ");
                 ChessPosition source = UI.readChessPosition(scanner);
 
                 boolean[][] possibleMoves = chessMatch.possibleMoves(source);
@@ -31,7 +31,7 @@ public class Program {
                 UI.printBoard(chessMatch.getPieces(),possibleMoves);
 
                 System.out.println();
-                System.out.println("Target: ");
+                System.out.print("Target: ");
                 ChessPosition target = UI.readChessPosition(scanner);
 
                 ChessPiece capturedPiece = chessMatch.performChessMove(source,target);
