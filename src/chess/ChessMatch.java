@@ -7,13 +7,14 @@ import chess.pieces.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 public class ChessMatch {
     private int turn;
     private Color currentPlayer;
     private Board board;
     private boolean check;
+    private boolean checkMate;
 
     private List<Piece> piecesOnTheBoard = new ArrayList<>();
     private List<Piece> capturedPieces = new ArrayList<>();
@@ -33,8 +34,12 @@ public class ChessMatch {
         return currentPlayer;
     }
 
-    public boolean getCheck(){
+    public boolean isCheck(){
         return check;
+    }
+
+    public boolean isCheckMate() {
+        return checkMate;
     }
 
     public ChessPiece[][]getPieces(){
@@ -70,6 +75,12 @@ public class ChessMatch {
         }
 
         check =(testCheck(opponent(currentPlayer))) ? true : false;
+
+        if (testCheck(opponent(currentPlayer))){
+            checkMate = true;
+        } else {
+            nextTurn();
+        }
 
         nextTurn();
         return (ChessPiece) capturedPiece;
@@ -150,6 +161,36 @@ public class ChessMatch {
             }
         }
         return false;
+    }
+
+    private boolean testCheckMate(Color color){
+        if (!testCheck(color)){
+            return false;
+        }
+
+        List<Piece> list = piecesOnTheBoard.stream()
+                .filter(x -> ((ChessPiece)x).getColor() == opponent(color)).toList();
+
+        for (Piece piece : list){
+            boolean[][] matrix = piece.possibleMoves();
+            for (int i = 0; i < board.getRows() ; i++) {
+                for (int j = 0; j < board.getColums() ; j++) {
+                    if (matrix[i][j]){
+                        Position source = ((ChessPiece)piece).getChessPosition().toPosition();
+                        Position target = new Position(i,j);
+
+                        Piece capturedPiece = makeMove(source,target);
+                        boolean testCheck = testCheck(color);
+                        undoMove(source,target,capturedPiece);
+
+                        if (!testCheck){
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     private void placeNewPiece(char column,int row,ChessPiece piece){
